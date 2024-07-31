@@ -1,5 +1,6 @@
 const app = require('./src/app.js');
 const { conn, User, Admin } = require('./src/db.js');
+const createDefaultAdmin = require('./src/utils/createDefaultAdmin.js');
 
 (async () => {
   try {
@@ -8,20 +9,16 @@ const { conn, User, Admin } = require('./src/db.js');
     const adminUser = await User.findOne({ where: { email: 'admin@gmail.com' } });
 
     if (!adminUser) {
-      const newUser = await User.create({
-        name: 'Admin',
-        lastname: 'Admin1',
-        username: 'admin',
-        password: '12345',
-        email: 'admin@gmail.com',
-      });
-      console.log('Default admin user created.');
-
-      await Admin.create({ user_id: newUser.id });
-      console.log('Admin record created.');
+      await createDefaultAdmin();
     } else {
-      await Admin.create({ user_id: adminUser.id });
-      console.log('Admin record already exists.');
+      // Check if the admin record already exists
+      const adminRecord = await Admin.findOne({ where: { user_id: adminUser.id } });
+      if (!adminRecord) {
+        await Admin.create({ user_id: adminUser.id });
+        console.log('Admin record created for existing admin user.');
+      } else {
+        console.log('Admin record already exists.');
+      }
     }
   } catch (error) {
     console.error('Error occurred:', error);

@@ -14,14 +14,13 @@ adminTemplatesRouter
 
 module.exports = adminTemplatesRouter;
 
-// remove changing username on the front and backe end.
-// Might want to fix or delete "templates metrics" from the dashboard.
+
+// BUG: EMAILS ARE NOT BEING UNIQUE. FIX THIS.
+
+// paranoid on Template. and all the functionalities similar to the user crud.
 // then, check google auth. <- tough one.
-// then, check the search bar. <- tough one.
 // manage changing passwords for google users, once fixed, if fixed at all.
-
-// USE REDUX IF AT ALL POSSIBLE.
-
+// REMOVE EMAIL CHANGES FROM THE FRONT AND BACKEND.
 // nice changes: 
     // - Local storage for the cart, then gets automatically added to the user's cart after login or signup. <- tough one.
 
