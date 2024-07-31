@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { changePassword } from "../../redux/actions/userAction";
+import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Security = () => {
-  const dispatch = useDispatch();
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [isFirebaseUser, setIsFirebaseUser] = useState(false);
 
   useEffect(() => {
@@ -22,19 +20,19 @@ const Security = () => {
     const { name, value } = e.target;
     if (name === 'currentpassword') setCurrentPassword(value);
     if (name === 'newpassword') setNewPassword(value);
-    if (name === 'confirmpassword') setConfirmPassword(value);
+    if (name === 'confirmnewpassword') setConfirmNewPassword(value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      if (!newPassword || !confirmPassword) {
+      if (!newPassword || !confirmNewPassword) {
         toast.warning('Por favor complete todos los campos.');
         return;
       }
 
-      if (newPassword !== confirmPassword) {
+      if (newPassword !== confirmNewPassword) {
         toast.error('La nueva contraseña y la confirmación no coinciden.');
         return;
       }
@@ -44,30 +42,41 @@ const Security = () => {
         return;
       }
 
-      if (isFirebaseUser) {
-        await dispatch(changePassword(null, newPassword));
-      } else {
-        await dispatch(changePassword(currentPassword, newPassword));
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast.error('No se encontró el token de autenticación.');
+        return;
       }
 
-      setCurrentPassword('');
-      setNewPassword('');
-      setConfirmPassword('');
+      const endpoint = 'http://localhost:3001/user/change-password';
+      const requestBody = isFirebaseUser
+        ? { newPassword }
+        : { currentPassword, newPassword, confirmNewPassword };
+
+      const response = await axios.post(endpoint, requestBody, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
 
       toast.success('Contraseña actualizada exitosamente.');
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmNewPassword('');
 
     } catch (error) {
       console.error('Error cambiando la contraseña:', error);
-      if (error.message === 'Contraseña actual Incorrecta') {
-        toast.error('La contraseña actual es incorrecta.');
+      if (error.response && error.response.data) {
+        toast.error(error.response.data.message || 'Fallo al cambiar la contraseña.');
       } else {
-        toast.error('Fallo al cambiar la contraseña.');
+        toast.error('Error interno del servidor.');
       }
     }
   };
 
   return (
-    <div className="">
+    <div>
       <ToastContainer />
       <div className="bg-zinc-200 w-[700px] mx-auto mt-12">
         <div className="bg-zinc-50">
@@ -108,15 +117,15 @@ const Security = () => {
               />
             </div>
             <div className="mb-4">
-              <label className="block mb-1" htmlFor="confirmpassword">
+              <label className="block mb-1" htmlFor="confirmnewpassword">
                 Confirmar Nueva Contraseña
               </label>
               <input
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
                 type="password"
-                id="confirmpassword"
-                name="confirmpassword"
-                value={confirmPassword}
+                id="confirmnewpassword"
+                name="confirmnewpassword"
+                value={confirmNewPassword}
                 onChange={handleChange}
                 placeholder="Confirme la nueva contraseña"
               />

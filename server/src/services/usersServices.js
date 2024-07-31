@@ -6,7 +6,6 @@ const firebaseAdmin = require("../firebaseConfig/firebaseConfig");
 const { Op } = require('sequelize');
 const nodemailer = require('nodemailer')
 
-
 // NODEMAILER CONFIG
 const nodemailerOptions = {
   service: 'gmail',

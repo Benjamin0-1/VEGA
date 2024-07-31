@@ -131,7 +131,8 @@ export function logout() {
   };
 }
 
-export const changePassword = (currentPassword, newPassword) => async (dispatch) => {
+// didnt require confirmNewPassword.
+export const changePassword = (currentPassword, newPassword, confirmNewPassword) => async (dispatch) => {
   dispatch({ type: CHANGE_PASSWORD_REQUEST });
 
   try {
@@ -142,7 +143,7 @@ export const changePassword = (currentPassword, newPassword) => async (dispatch)
         'Content-Type': 'application/json'
       }
     });
-
+    
     dispatch({
       type: CHANGE_PASSWORD_SUCCESS,
       payload: res.data.message
@@ -161,8 +162,10 @@ export const changePassword = (currentPassword, newPassword) => async (dispatch)
     }
     throw error;
   }
-
 };
+
+
+
 export const addFav = (id) => {
   return async (dispatch) => {
     try {

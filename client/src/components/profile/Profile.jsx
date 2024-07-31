@@ -4,6 +4,9 @@ import { fetchProfile, updateProfile } from "../../redux/actions/userAction";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+// this actually changes the user profile but doesn't update the UI on the top right corner.
+// unless you log out and then log in again.
+
 const Profile = ({ user, loading, error, fetchProfile, updateProfile }) => {
   const [name, setName] = useState("");
   const [lastname, setLastname] = useState("");
@@ -37,7 +40,7 @@ const Profile = ({ user, loading, error, fetchProfile, updateProfile }) => {
     formData.append("lastname", lastname);
     formData.append("email", email);
     if (profilePicture) {
-      formData.append("profilePicture", profilePicture);
+      formData.append("profilePicture", profilePicture); // to be sent as a file and implemented later.
     }
     
     updateProfile(formData)
@@ -65,13 +68,13 @@ const Profile = ({ user, loading, error, fetchProfile, updateProfile }) => {
         <div className="bg-zinc-200 w-[700px] ml-[-114px]">
           <div className="bg-zinc-50">
             <div className="bg-zinc-50 text-lg font-semibold p-4 mb-6">
-              Detalles de la Cuenta
+            Detalles de la Cuenta
             </div>
           </div>
           <div>
             <form onSubmit={handleSubmit} className="p-4">
               <div className="mb-4">
-                <label className="block mb-1" htmlFor="inputName">
+                <label className="block mb-1" htmlFor="inputUsername">
                   Nombre
                 </label>
                 <input
@@ -82,7 +85,7 @@ const Profile = ({ user, loading, error, fetchProfile, updateProfile }) => {
                 />
               </div>
               <div className="mb-4">
-                <label className="block mb-1" htmlFor="inputLastname">
+                <label className="block mb-1" htmlFor="inputUsername">
                   Apellido
                 </label>
                 <input

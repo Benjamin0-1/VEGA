@@ -1,5 +1,6 @@
-const { registerService, loginService, addNewFavorite, getAllFavorites, removeFavorite, userId, changePassword } = require('../services/usersServices');
-
+const { registerService, loginService, addNewFavorite, getAllFavorites, removeFavorite, userId } = require('../services/usersServices');
+const {User} = require('../db');
+const bcrypt = require('bcrypt');
 // VERIFY every function is working.
 
 const registerUser = async (req, res) => {
@@ -90,13 +91,74 @@ const getUserById= async (req, res) => {
     } catch (error) {
         res.status(404).send(error);
     }
-}
+};
+
+
+const changePassword = async (req, res) => {
+    const { currentPassword, newPassword, confirmNewPassword } = req.body;
+    const userId = req.userId;
+
+    if (!currentPassword || !newPassword || !confirmNewPassword) {
+        return res.status(400).json({ message: 'Se requiere la contraseña actual, nueva y confirmación' });
+    }
+  
+    try {
+    
+      const user = await User.findOne({ where: { id: userId } });
+  
+      if (!user) {
+        return res.status(404).json({ message: 'Usuario no encontrado' });
+      }
+  
+      // Handle Firebase UID case
+      if (user.firebaseUid && !currentPassword) {
+        user.firebaseUid = ''; // Clear firebaseUid if no currentPassword is provided
+        await User.update({ firebaseUid: '' }, { where: { id: userId } });
+      } else {
+        // Validate current password
+        if (!currentPassword) {
+          return res.status(400).json({ message: 'Se requiere la contraseña actual' });
+        }
+        
+        const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+  
+        if (!isPasswordValid) {
+          return res.status(400).json({ message: 'La contraseña actual es incorrecta' });
+        }
+      }
+  
+
+      if (!newPassword || !confirmNewPassword) {
+        return res.status(400).json({ message: 'Se requiere una nueva contraseña y confirmación' });
+      }
+  
+      if (newPassword !== confirmNewPassword) {
+        return res.status(400).json({ message: 'Las contraseñas nuevas no coinciden' });
+      }
+  
+      // Hash and update new password
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(newPassword, salt);
+  
+      await User.update(
+        { password: hashedPassword, firebaseUid: user.firebaseUid },
+        { where: { id: userId } }
+      );
+  
+      res.status(200).json({ message: 'Contraseña actualizada exitosamente' });
+    } catch (error) {
+      console.error('Error al cambiar la contraseña:', error);
+      res.status(500).json({ message: 'Error interno del servidor' });
+    }
+  };
+
 module.exports = {
     registerUser,
     loginUser,
     addFavorite,
     getFavorites,
     deleteFavorite, 
-    getUserById
+    getUserById,
+    changePassword
 }
 

@@ -1,5 +1,5 @@
-const { registerUser, loginUser, addFavorite, getFavorites, deleteFavorite } = require("../handlers/userHandlers");
-const { getProfile, updateProfile, changePassword } = require("../services/usersServices");
+const { registerUser, loginUser, addFavorite, getFavorites, deleteFavorite, changePassword } = require("../handlers/userHandlers");
+const { getProfile, updateProfile } = require("../services/usersServices");
 const loginRequire = require("../middlewares/loginRequire");
 const userRouter = require("express").Router();
 
