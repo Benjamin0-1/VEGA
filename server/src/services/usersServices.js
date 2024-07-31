@@ -96,39 +96,39 @@ async function sendMail(transporter, to, subject, message) {
 
 const registerService = async (email, lastname, name, userPassword, image) => {
   try {
-    
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return { error: 'Email inválido', status: 400 };
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(userPassword, salt);
     const existingUser = await User.findOne({
       where: {
         email: email
       }
     });
     if (existingUser) {
-      return { error: `El email ${email} ya existe`, status: 409 }
+      return { error: `El email ${email} ya existe`, status: 409 };
     }
+
     const newUser = await User.create({
       name: name,
       lastname: lastname,
       email: email,
-      password: hashedPassword,
+      password: userPassword, // Raw password, will be hashed by the hook
+      imagen: image
     });
 
     // EMAIL
     const transporter = await initializeTransporter();
     await sendMail(transporter, newUser.email, 'Cuenta registrada', 'Tu cuenta ha sido registrada exitosamente.');
 
-    return { data: `Bienvenido a Vega, ${name}`, status: 201 }
+    return { data: `Bienvenido a Vega, ${name}`, status: 201 };
   } catch (error) {
     console.error('Error al crear el usuario:', error);
     return { error: 'Error al crear el usuario', status: 500 };
   }
 };
+
 
 const loginService = async (email, userPassword, firebaseToken) => {
 
@@ -244,8 +244,8 @@ const addNewFavorite = async (templateId, userId) => {
     const user = await User.findByPk(userId);
     const template = await Template.findByPk(templateId);
     if (user && template) { // will always be found on the front end.
-      await user.addFavorite(template);
-      const updatedFavorites = await User.findByPk(userId, {
+      await user.addFavorite(template); // at this point it's already added to the user's favorites.
+      const updatedFavorites = await User.findByPk(userId, { // here we simply fetch the updated favorites.
         include: [
           {
             model: Template,
