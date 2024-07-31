@@ -34,9 +34,8 @@ const postTemplates = async (req, res) => {
 };
 
 const getTemplates = async (req, res) => {
-  const { technology, category, sortBy, order, page, pageSize, imagen } =
-    req.query;
-  
+  const { technology, category, sortBy, order, page, pageSize, imagen } = req.query;
+
   try {
     const templates = await getFilteredTemplates({
       imagen,
@@ -46,18 +45,20 @@ const getTemplates = async (req, res) => {
       order,
       page,
       pageSize,
-      where : {deleted_at: null} // added this line.
+      paranoid: true 
     });
+
     if (templates.status === 404) {
-      return res.status(templates.status).json(templates.error);
+      return res.status(templates.status).json({ error: templates.error });
     }
 
-    return res.status(templates.status).send(templates);
+    return res.status(templates.status).json(templates);
   } catch (error) {
     console.error(error);
-    return res.json(error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 const getTemplateById = async (req, res) => {
   try {
