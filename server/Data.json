@@ -1,0 +1,516 @@
+
+{
+  "templates": [
+    {
+      "name": "Ecommerce Electronics",
+      "description": "A modern and responsive ecommerce template for electronics built with React and Tailwind CSS.",
+      "price": 49.99,
+      "technologies": ["React", "Tailwind CSS"],
+      "categories": ["Tienda en linea", "Streaming"]
+    },
+    {
+      "name": "Automobile Showcase",
+      "description": "A sleek automobile showcase website template using Vue and Bootstrap.",
+      "price": 59.99,
+      "technologies": ["Vue", "Bootstrap"],
+      "categories": ["Bienes inmuebles", "Eventos especiales"]
+    },
+    {
+      "name": "Clothing Store",
+      "description": "A stylish clothing store template designed with Angular and SASS.",
+      "price": 39.99,
+      "technologies": ["Angular", "SASS"],
+      "categories": ["Tienda en linea", "Entretenimiento"]
+    },
+    {
+      "name": "News Portal",
+      "description": "A dynamic news portal template created with Next.js and Tailwind CSS.",
+      "price": 69.99,
+      "technologies": ["Next.js", "Tailwind CSS"],
+      "categories": ["Portal de noticias", "Portal"]
+    },
+    {
+      "name": "Tech Blog",
+      "description": "A clean and modern tech blog template using Astro and CSS Modules.",
+      "price": 29.99,
+      "technologies": ["Astro", "CSS Modules"],
+      "categories": ["Blogs", "Tech"]
+    },
+    {
+      "name": "Real Estate Listings",
+      "description": "A comprehensive real estate listings template built with Svelte and Bootstrap.",
+      "price": 54.99,
+      "technologies": ["Svelte", "Bootstrap"],
+      "categories": ["Bienes inmuebles", "Listings"]
+    },
+    {
+      "name": "Fitness Website",
+      "description": "A high-energy fitness website template created with React and Material UI.",
+      "price": 44.99,
+      "technologies": ["React", "Material UI"],
+      "categories": ["Fitness", "Salud y belleza"]
+    },
+    {
+      "name": "Restaurant Menu",
+      "description": "A mouth-watering restaurant menu template built using Vue and Tailwind CSS.",
+      "price": 34.99,
+      "technologies": ["Vue", "Tailwind CSS"],
+      "categories": ["Restaurante", "Eventos especiales"]
+    },
+    {
+      "name": "Educational Platform",
+      "description": "An educational platform template designed with Nuxt.js and Vuetify.",
+      "price": 64.99,
+      "technologies": ["Nuxt.js", "Vuetify"],
+      "categories": ["Educacion", "Blogs"]
+    },
+    {
+      "name": "Corporate Website",
+      "description": "A professional corporate website template using Angular and Bootstrap.",
+      "price": 49.99,
+      "technologies": ["Angular", "Bootstrap"],
+      "categories": ["Portal", "Tech"]
+    },
+    {
+      "name": "Ecommerce Electronics",
+      "description": "A modern and responsive ecommerce template for electronics built with React and Tailwind CSS.",
+      "price": 49.99,
+      "technologies": ["React", "Tailwind CSS"],
+      "categories": ["Tienda en linea", "Streaming"]
+    },
+    {
+      "name": "Automobile Showcase",
+      "description": "A sleek automobile showcase website template using Vue and Bootstrap.",
+      "price": 59.99,
+      "technologies": ["Vue", "Bootstrap"],
+      "categories": ["Bienes inmuebles", "Eventos especiales"]
+    },
+    {
+      "name": "Clothing Store",
+      "description": "A stylish clothing store template designed with Angular and SASS.",
+      "price": 39.99,
+      "technologies": ["Angular", "SASS"],
+      "categories": ["Tienda en linea", "Entretenimiento"]
+    },
+    {
+      "name": "News Portal",
+      "description": "A dynamic news portal template created with Next.js and Tailwind CSS.",
+      "price": 69.99,
+      "technologies": ["Next.js", "Tailwind CSS"],
+      "categories": ["Portal de noticias", "Portal"]
+    },
+    {
+      "name": "Tech Blog",
+      "description": "A clean and modern tech blog template using Astro and CSS Modules.",
+      "price": 29.99,
+      "technologies": ["Astro", "CSS Modules"],
+      "categories": ["Blogs", "Tech"]
+    },
+    {
+      "name": "Real Estate Listings",
+      "description": "A comprehensive real estate listings template built with Svelte and Bootstrap.",
+      "price": 54.99,
+      "technologies": ["Svelte", "Bootstrap"],
+      "categories": ["Bienes inmuebles", "Listings"]
+    },
+    {
+      "name": "Fitness Website",
+      "description": "A high-energy fitness website template created with React and Material UI.",
+      "price": 44.99,
+      "technologies": ["React", "Material UI"],
+      "categories": ["Fitness", "Salud y belleza"]
+    },
+    {
+      "name": "Restaurant Menu",
+      "description": "A mouth-watering restaurant menu template built using Vue and Tailwind CSS.",
+      "price": 34.99,
+      "technologies": ["Vue", "Tailwind CSS"],
+      "categories": ["Restaurante", "Eventos especiales"]
+    },
+    {
+      "name": "Educational Platform",
+      "description": "An educational platform template designed with Nuxt.js and Vuetify.",
+      "price": 64.99,
+      "technologies": ["Nuxt.js", "Vuetify"],
+      "categories": ["Educacion", "Blogs"]
+    },
+    {
+      "name": "Corporate Website",
+      "description": "A professional corporate website template using Angular and Bootstrap.",
+      "price": 49.99,
+      "technologies": ["Angular", "Bootstrap"],
+      "categories": ["Portal", "Tech"]
+    }
+  ],
+  "categories": [
+    {
+      "name": "Salud y belleza"
+    },
+    {
+      "name": "Restaurante"
+    },
+    {
+      "name": "Tienda en linea"
+    },
+    {
+      "name": "Portal"
+    },
+    {
+      "name": "Tech"
+    },
+    {
+      "name": "Listings"
+    },
+    {
+      "name": "Educacion"
+    },
+    {
+      "name": "Fitness"
+    },
+    {
+      "name": "Streaming"
+    },
+    {
+      "name": "Eventos especiales"
+    },
+    {
+      "name": "Portal de noticias"
+    },
+    {
+      "name": "Entretenimiento"
+    },
+    {
+      "name": "Bienes inmuebles"
+    },
+    {
+      "name": "Blogs"
+    }
+  ],
+  "technologies": [
+    {
+      "name": "React"
+    },
+    {
+      "name": "Tailwind CSS"
+    },
+    {
+      "name": "Vue"
+    },
+    {
+      "name": "Bootstrap"
+    },
+    {
+      "name": "Angular"
+    },
+    {
+      "name": "SASS"
+    },
+    {
+      "name": "Next.js"
+    },
+    {
+      "name": "Astro"
+    },
+    {
+      "name": "CSS Modules"
+    },
+    {
+      "name": "Svelte"
+    },
+    {
+      "name": "Material UI"
+    },
+    {
+      "name": "Nuxt.js"
+    },
+    {
+      "name": "Vuetify"
+    }
+  ],
+  "imagenes": [
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/bienes_raices/bienes_raices_2/bienes_raices_2_1.jpeg",
+      "isCover": true,
+      "category": "Bienes inmuebles"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/bienes_raices/bienes_raices_2/bienes_raices_2_2.jpeg",
+      "isCover": false,
+      "category": "Bienes inmuebles"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/bienes_raices/bienes_raices_2/bienes_raices_2_3.jpeg",
+      "isCover": false,
+      "category": "Bienes inmuebles"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/bienes_raices/bienes_raices_2/bienes_raices_2_4.jpeg",
+      "isCover": false,
+      "category": "Bienes inmuebles"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/educacion/eduww-social-share.png",
+      "isCover": true,
+      "category": "Educacion"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/educacion/Sin título.png",
+      "isCover": false,
+      "category": "Educacion"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/educacion/Sin título345435.png",
+      "isCover": false,
+      "category": "Educacion"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/educacion/Sin títulosds.png",
+      "isCover": false,
+      "category": "Educacion"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/fitness/logo_redes.png",
+      "isCover": true,
+      "category": "Fitness"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/fitness/Sin títssdsdulo.png",
+      "isCover": false,
+      "category": "Fitness"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/fitness/Sin títsssaulo.png",
+      "isCover": false,
+      "category": "Fitness"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/fitness/Sin títuaalo.png",
+      "isCover": false,
+      "category": "Fitness"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/Imagenes-Alisson/Restaurante/imagen 1/Image1.png",
+      "isCover": true,
+      "category": "Restaurante"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/Imagenes-Alisson/Restaurante/imagen 1/Image2.png",
+      "isCover": false,
+      "category": "Restaurante"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/Imagenes-Alisson/Restaurante/imagen 1/Image3.png",
+      "isCover": false,
+      "category": "Restaurante"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/Imagenes-Alisson/Restaurante/imagen 1/Image4.png",
+      "isCover": false,
+      "category": "Restaurante"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/Imagenes-Alisson/Salud y Belleza/imagen 1/image1.png",
+      "isCover": true,
+      "category": "Salud y Belleza"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/Imagenes-Alisson/Salud y Belleza/imagen 1/image2.png",
+      "isCover": false,
+      "category": "Salud y Belleza"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/Imagenes-Alisson/Salud y Belleza/imagen 1/image3.png",
+      "isCover": false,
+      "category": "Salud y Belleza"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/Imagenes-Alisson/Salud y Belleza/imagen 1/image4.png",
+      "isCover": false,
+      "category": "Salud y Belleza"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/Imagenes-Alisson/Tienda en línea/Imagen 2/image1.png",
+      "isCover": true,
+      "category": "Tienda en linea"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/Imagenes-Alisson/Tienda en línea/Imagen 2/image2.png",
+      "isCover": false,
+      "category": "Tienda en linea"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/Imagenes-Alisson/Tienda en línea/Imagen 2/image3.png",
+      "isCover": false,
+      "category": "Tienda en linea"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/Imagenes-Alisson/Tienda en línea/Imagen 2/image4.png",
+      "isCover": false,
+      "category": "Tienda en linea"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/portalNoticias-eventosEsp-platStreaming/platStreaming1.4.jpg",
+      "isCover": true,
+      "category": "Streaming"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/portalNoticias-eventosEsp-platStreaming/platStreaming1.3.png",
+      "isCover": false,
+      "category": "Streaming"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/portalNoticias-eventosEsp-platStreaming/platStreaming1.2.png",
+      "isCover": false,
+      "category": "Streaming"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/portalNoticias-eventosEsp-platStreaming/platStreaming1.1.png",
+      "isCover": false,
+      "category": "Streaming"
+    },
+
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/portalNoticias-eventosEsp-platStreaming/eventosEsp1.1.png",
+      "isCover": true,
+      "category": "Eventos especiales"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/portalNoticias-eventosEsp-platStreaming/eventosEsp1.2.png",
+      "isCover": false,
+      "category": "Eventos especiales"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/portalNoticias-eventosEsp-platStreaming/eventosEsp1.3.png",
+      "isCover": false,
+      "category": "Eventos especiales"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/portalNoticias-eventosEsp-platStreaming/eventosEsp1.4.png",
+      "isCover": false,
+      "category": "Eventos especiales"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/portalNoticias-eventosEsp-platStreaming/channels4_profile.jpg",
+      "isCover": true,
+      "category": "Portal de noticias"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/portalNoticias-eventosEsp-platStreaming/portalNoticias1.1.png",
+      "isCover": false,
+      "category": "Portal de noticias"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/portalNoticias-eventosEsp-platStreaming/portalNoticias1.2.png",
+      "isCover": false,
+      "category": "Portal de noticias"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/portalNoticias-eventosEsp-platStreaming/portalNoticias1.3.png",
+      "isCover": false,
+      "category": "Portal de noticias"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/TEMPLATES LISTING - PORTAL - TECH/LISTING - COVER.jpg",
+      "isCover": true,
+      "category": "Listings"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/TEMPLATES LISTING - PORTAL - TECH/LISTING - 1 c.jpg",
+      "isCover": false,
+      "category": "Listings"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/TEMPLATES LISTING - PORTAL - TECH/LISTING - 1.jpg",
+      "isCover": false,
+      "category": "Listings"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/TEMPLATES LISTING - PORTAL - TECH/LISTING - 2.jpg",
+      "isCover": false,
+      "category": "Listings"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/TEMPLATES LISTING - PORTAL - TECH/PORTAL COVER 2.jpg",
+      "isCover": true,
+      "category": "Portal"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/TEMPLATES LISTING - PORTAL - TECH/PORTAL -3 b.jpg",
+      "isCover": false,
+      "category": "Portal"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/TEMPLATES LISTING - PORTAL - TECH/PORTAL 2 b.jpg",
+      "isCover": false,
+      "category": "Portal"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/TEMPLATES LISTING - PORTAL - TECH/PORTAL -1 b.jpg",
+      "isCover": false,
+      "category": "Portal"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/TEMPLATES LISTING - PORTAL - TECH/TECH COVER.jpg",
+      "isCover": true,
+      "category": "Tech"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/TEMPLATES LISTING - PORTAL - TECH/TECH 2.jpg",
+      "isCover": false,
+      "category": "Tech"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/TEMPLATES LISTING - PORTAL - TECH/TECH 1.jpg",
+      "isCover": false,
+      "category": "Tech"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/TEMPLATES LISTING - PORTAL - TECH/TECH 3.jpg",
+      "isCover": false,
+      "category": "Tech"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/entretenimiento/entretenimiento_1/entretenimiento_1_1.jpeg",
+      "isCover": true,
+      "category": "Entretenimiento"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/entretenimiento/entretenimiento_1/entretenimiento_1_2.jpeg",
+      "isCover": false,
+      "category": "Entretenimiento"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/entretenimiento/entretenimiento_1/entretenimiento_1_3.jpeg",
+      "isCover": false,
+      "category": "Entretenimiento"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/entretenimiento/entretenimiento_1/entretenimiento_1_4.jpeg",
+      "isCover": false,
+      "category": "Entretenimiento"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/Blogs/homepage-featured-image.jpg",
+      "isCover": true,
+      "category": "Blogs"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/Blogs/Sin título.png",
+      "isCover": false,
+      "category": "Blogs"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/Blogs/Sin título1.png",
+      "isCover": false,
+      "category": "Blogs"
+    },
+    {
+      "content": "C:/Users/matias/Pictures/IMAGEPF/Blogs/Sin título2.png",
+      "isCover": false,
+      "category": "Blogs"
+    }
+  ],
+  "carpetasDetalle":["Bienes inmuebles_Detalle", "Salud y belleza_Detalle"],
+  "carpetasPortada": ["Bienes inmuebles_Portada", "Salud y belleza_Portada"]
+  
+}

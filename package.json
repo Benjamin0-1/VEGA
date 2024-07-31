@@ -1,0 +1,14 @@
+{
+    "name": "your-project",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "start": "concurrently \"npm run server\" \"npm run client\"",
+        "server": "cd server && nodemon index.js",
+        "client": "cd client && npm start"
+    },
+    "dependencies": {
+        "concurrently": "^8.2.2",
+        "nodemon": "^3.1.4"
+    }
+}
