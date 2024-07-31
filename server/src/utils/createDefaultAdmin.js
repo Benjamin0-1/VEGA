@@ -11,10 +11,10 @@ const createDefaultAdmin = async () => {
       password: defaultAdminPassword,
       name: 'Admin',
       lastname: 'User',
-      isAdmin: true
+      isAdmin: true // we use the admin table for a more scalable solution.
     });
 
-    await Admin.create({ user_id: newUser.id });
+    await Admin.create({ user_id: newUser.id }); // this table.
     console.log('Default admin created.');
   } else {
     // Check if the admin record already exists

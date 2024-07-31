@@ -98,7 +98,7 @@ const createTemplate = async (req, res) => {
 
 const getAllTemplates = async (req, res) => {
     try {
-        const templates = await Template.findAll({ paranoid: false });
+        const templates = await Template.findAll({ paranoid: false }); 
         if (templates.length === 0) {
             return res.status(404).json({ error: 'No se encontraron templates' });
         }
@@ -108,7 +108,6 @@ const getAllTemplates = async (req, res) => {
     }
 };
 
-// disable template
 const deleteTemplate = async (req, res) => {
     const { id } = req.params;
     try {
@@ -116,11 +115,48 @@ const deleteTemplate = async (req, res) => {
         if (!template) {
             return res.status(404).json({ error: 'Template no encontrado.' });
         }
-        template.deleted_at = new Date();
+        await template.destroy(); // this is a soft delete, it will not be removed from the database. paranoid: true.
         return res.json({ message: 'Template desactivado' });
     } catch (err) {
         return res.status(500).json({ error: err.message });
     }
 };
 
-module.exports = { getAllTemplates, deleteTemplate };
+const restoreTemplate = async (req, res) => {
+    const { id } = req.params;
+    if (!id) {
+        return res.status(400).json({ error: 'Falta el id' });
+    }
+    try {
+        const template = await Template.findByPk(id, { paranoid: false });
+        if (!template) {
+            return res.status(404).json({ error: 'Template no encontrado.' });
+        }
+        await template.restore(); 
+        return res.json({ message: 'Template restaurado' });
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+};
+
+const viewDisabledTemplates = async (req, res) => {
+    try {
+        const templates = await Template.findAll({
+            paranoid: false,
+            where: {
+                deletedAt: {
+                    [Op.ne]: null
+                }
+            }
+        });
+        if (templates.length === 0) {
+            return res.status(404).json({ error: 'No se encontraron templates desactivados' });
+        }
+        return res.status(200).json(templates);
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+};
+
+
+module.exports = { getAllTemplates, deleteTemplate, restoreTemplate, createTemplate, viewDisabledTemplates };

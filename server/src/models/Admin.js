@@ -10,7 +10,8 @@ module.exports = (sequelize) => {
         },
         user_id: {
             type: DataTypes.UUID,
-            allowNull: false
+            allowNull: false,
+            // unique: true
         },
     })
 
