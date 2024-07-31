@@ -5,7 +5,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Profile = ({ user, loading, error, fetchProfile, updateProfile }) => {
-  const [username, setUsername] = useState("");
   const [name, setName] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
@@ -18,7 +17,6 @@ const Profile = ({ user, loading, error, fetchProfile, updateProfile }) => {
 
   useEffect(() => {
     if (user) {
-      setUsername(user.username || null);
       setName(user.name);
       setLastname(user.lastname);
       setEmail(user.email);
@@ -35,7 +33,6 @@ const Profile = ({ user, loading, error, fetchProfile, updateProfile }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("username", username);
     formData.append("name", name);
     formData.append("lastname", lastname);
     formData.append("email", email);
@@ -68,25 +65,13 @@ const Profile = ({ user, loading, error, fetchProfile, updateProfile }) => {
         <div className="bg-zinc-200 w-[700px] ml-[-114px]">
           <div className="bg-zinc-50">
             <div className="bg-zinc-50 text-lg font-semibold p-4 mb-6">
-            Detalles de la Cuenta
+              Detalles de la Cuenta
             </div>
           </div>
           <div>
             <form onSubmit={handleSubmit} className="p-4">
               <div className="mb-4">
-                <label className="block mb-1" htmlFor="inputUsername">
-                Nombre de usuario (cómo aparecerá tu nombre a otros usuarios en el sitio)
-                </label>
-                <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Ingrese su username"
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block mb-1" htmlFor="inputUsername">
+                <label className="block mb-1" htmlFor="inputName">
                   Nombre
                 </label>
                 <input
@@ -97,7 +82,7 @@ const Profile = ({ user, loading, error, fetchProfile, updateProfile }) => {
                 />
               </div>
               <div className="mb-4">
-                <label className="block mb-1" htmlFor="inputUsername">
+                <label className="block mb-1" htmlFor="inputLastname">
                   Apellido
                 </label>
                 <input

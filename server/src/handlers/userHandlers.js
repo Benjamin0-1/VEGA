@@ -1,4 +1,4 @@
-const { registerService, loginService, addNewFavorite, getAllFavorites, removeFavorite, userId } = require('../services/usersServices');
+const { registerService, loginService, addNewFavorite, getAllFavorites, removeFavorite, userId, changePassword } = require('../services/usersServices');
 
 // VERIFY every function is working.
 

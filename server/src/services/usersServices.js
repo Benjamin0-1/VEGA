@@ -416,7 +416,7 @@ const getProfile = async (req, res) => {
 };
 
 const updateProfile = async (req, res) => {
-  const { username, name, lastname, email } = req.body;
+  const { name, lastname, email } = req.body;
 
   try {
     const userId = req.userId;
@@ -425,21 +425,26 @@ const updateProfile = async (req, res) => {
       return res.status(404).json({ message: 'Perfil no encontrado' });
     }
 
+    // Fetch the user from the database
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
 
+    // Update user profile
     await User.update(
       {
-        username: username || req.user.username,
-        name: name || req.user.name,
-        lastname: lastname || req.user.lastname,
-        email: email || req.user.email,
+        name: name || user.name,
+        lastname: lastname || user.lastname,
+        email: email || user.email,
       },
       { where: { id: userId } }
     );
 
-
+    // Fetch updated user profile
     const updatedProfile = await User.findOne({
       where: { id: userId },
-      attributes: { exclude: [ 'password' ] }
+      attributes: { exclude: ['password'] }
     });
 
     res.status(200).json(updatedProfile);
@@ -449,23 +454,29 @@ const updateProfile = async (req, res) => {
   }
 };
 
+
 const changePassword = async (req, res) => {
-  const { currentPassword, newPassword } = req.body;
+  const { currentPassword, newPassword, confirmNewPassword } = req.body;
   const userId = req.userId;
 
   try {
+    // Check if the user exists
     const user = await User.findOne({ where: { id: userId } });
 
     if (!user) {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }
 
-    // Verifica si el usuario tiene firebaseUid y no proporcionó la contraseña actual
+    // Handle Firebase UID case
     if (user.firebaseUid && !currentPassword) {
-      // Si tiene firebaseUid y no envió la contraseña actual, elimina firebaseUid del usuario
-      user.firebaseUid = ''; // O asigna null según tu estructura de datos
+      user.firebaseUid = ''; // Clear firebaseUid if no currentPassword is provided
+      await User.update({ firebaseUid: '' }, { where: { id: userId } });
     } else {
-      // Si proporcionó la contraseña actual, verifica su validez
+      // Validate current password
+      if (!currentPassword) {
+        return res.status(400).json({ message: 'Se requiere la contraseña actual' });
+      }
+      
       const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
 
       if (!isPasswordValid) {
@@ -473,12 +484,24 @@ const changePassword = async (req, res) => {
       }
     }
 
-    // Ahora actualiza la contraseña con la nueva
+    // Validate new password
+    if (!newPassword || !confirmNewPassword) {
+      return res.status(400).json({ message: 'Se requiere una nueva contraseña y confirmación' });
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      return res.status(400).json({ message: 'Las contraseñas nuevas no coinciden' });
+    }
+
+    // Password strength check (optional, implement as needed)
+    // Example: if (newPassword.length < 8) { ... }
+
+    // Hash and update new password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
 
     await User.update(
-      { password: hashedPassword, firebaseUid: user.firebaseUid }, // Actualiza firebaseUid si existe
+      { password: hashedPassword, firebaseUid: user.firebaseUid },
       { where: { id: userId } }
     );
 
@@ -488,6 +511,7 @@ const changePassword = async (req, res) => {
     res.status(500).json({ message: 'Error interno del servidor' });
   }
 };
+
 
 
 module.exports = {
