@@ -53,7 +53,7 @@ const Navbar = () => {
     event.preventDefault();
     if (searchString) {
       dispatch(getTemplateBySearch(searchString));
-      // No cambiar showProfileMenu aquí
+      // No need to change showProfileMenu here
     }
   };
 

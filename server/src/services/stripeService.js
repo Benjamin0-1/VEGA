@@ -4,8 +4,6 @@ const { Cart, Template } = require("../db");
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 // Stripe webhooks will be implemented in the future.
-
-
 const paymentIntent = async (userId) => {
   try {
     // Retrieve the user's cart
@@ -26,7 +24,7 @@ const paymentIntent = async (userId) => {
 
     // Find all completed orders for the user and get purchased templates
     const purchasedTemplates = await Order.findAll({
-      where: { user_id: userId},
+      where: { user_id: userId, status: 'completed' },
       include: [{
         model: Template,
         as: 'purchasedTemplates',
@@ -91,6 +89,64 @@ const paymentIntent = async (userId) => {
   }
 };
 
+
+
+
+/*
+const paymentIntent = async (userId) => {
+  try {
+    const userCart = await Cart.findOne({
+      where: { user_id: userId },
+      include: [ {
+        model: Template,
+        as: 'inCart',
+        through: {
+          attributes: []
+        }
+      } ]
+    });
+
+    if (!userCart || userCart.inCart.length === 0) {
+      return { status: 400, message: 'El carrito está vacío' };
+    }
+
+    let order = await Order.create({
+      user_id: userId,
+      total_amount: userCart.total_amount,
+      status: 'pending'
+    });
+
+    for (const template of userCart.inCart) {
+      await order.addPurchasedTemplate(template);
+    }
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: [ 'card' ],
+      line_items: userCart.inCart.map(item => ({
+      price_data: {
+        currency: 'usd',
+        product_data: {
+        name: item.name,
+        description: item.description,
+        },
+        unit_amount: Math.round(item.price * 100),
+      },
+      quantity: 1,
+      })),
+      mode: 'payment',
+      success_url: `http://localhost:5173/paySuccess`,
+      cancel_url: `http://localhost:5173/payCancel`,
+    });
+
+    order.stripe_session_id = session.id;
+    await order.save();
+    await userCart.destroy(); // Eliminar el carrito después de que se haya creado la orden.
+    return { status: 201, id: session.id, session_url: session.url, order: order.id };
+  } catch (error) {
+    return { status: 500, message: `Internal Server Error: ${error.message}` };
+  }
+};
+*/
 
 
 const paymentSuccess = async (orderId, userId) => {

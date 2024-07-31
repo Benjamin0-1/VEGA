@@ -10,7 +10,7 @@ const Billing = () => {
     dispatch(fetchProfile());
   }, [dispatch]);
   // change to fulfilled on the backend.
-  const completedOrders = userOrders ? userOrders.filter(order => order.status === "pending") : [];
+  const completedOrders = userOrders ? userOrders.filter(order => order.status === "completed") : [];
 
   return (
     <div className="">
