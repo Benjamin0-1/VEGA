@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllTemplates, deleteTemplate } from '../../../redux/actions/adminTemplatesAction';
+import { getAllTemplates, deleteTemplate, restoreTemplate } from '../../../redux/actions/adminTemplatesAction';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -10,6 +10,8 @@ const SeeAllTemplates = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [templateToDelete, setTemplateToDelete] = useState(null);
+  const [templateToRestore, setTemplateToRestore] = useState(null);
+
 
   useEffect(() => {
     dispatch(getAllTemplates());
@@ -35,6 +37,19 @@ const SeeAllTemplates = () => {
     }
   };
 
+  const handleRestoreTemplate = (id) => {
+    setTemplateToRestore(id);
+    dispatch(restoreTemplate(id))
+      .then(() => {
+        toast.success('Plantilla restaurada exitosamente');
+        dispatch(getAllTemplates());
+      })
+      .catch(error => {
+        console.error('Error al restaurar plantilla:', error);
+        toast.error('Error al restaurar plantilla');
+      });
+  };
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
     setIsModalOpen(false);
@@ -46,22 +61,44 @@ const SeeAllTemplates = () => {
       <h1 className="text-3xl font-bold mt-8 mb-12">Lista de Plantillas</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {templates?.map(template => (
-          <div key={template.id} className="bg-white rounded-lg shadow-md p-4 transition-transform transform hover:scale-105">
+          <div
+            key={template.id}
+            className={`bg-white rounded-lg shadow-md p-4 transition-transform transform hover:scale-105 ${
+              template.deletedAt ? 'opacity-50' : ''
+            }`}
+          >
             <h3 className="text-lg font-semibold mb-2">{template.name}</h3>
+            <p className="text-gray-600 mb-2">ID: {template.id}</p>
             <p className="text-gray-600 mb-2">{template.description}</p>
             <p className="text-gray-700">Precio: ${template.price}</p>
-            <div className="flex justify-end mt-4">
-              <button
-                className="bg-red-500 hover:bg-red-600 text-white py-1 px-4 rounded focus:outline-none"
-                onClick={() => handleDeleteTemplate(template.id)}
-              >
-                Eliminar
-              </button>
-            </div>)
+            <p className={`text-gray-700 mt-2 ${template.deletedAt ? 'text-red-500' : 'text-green-500'}`}>
+              {template.deletedAt
+                ? `Eliminado: ${new Date(template.deletedAt).toLocaleDateString()}`
+                : 'Activo'}
+            </p>
+            {template.deletedAt ? (
+              <div className="flex justify-end mt-4">
+                <button
+                  className="bg-green-500 hover:bg-green-600 text-white py-1 px-4 rounded focus:outline-none"
+                  onClick={() => handleRestoreTemplate(template.id)}
+                >
+                  Activar
+                </button>
+              </div>
+            ) : (
+              <div className="flex justify-end mt-4">
+                <button
+                  className="bg-red-500 hover:bg-red-600 text-white py-1 px-4 rounded focus:outline-none"
+                  onClick={() => handleDeleteTemplate(template.id)}
+                >
+                  Eliminar
+                </button>
+              </div>
+            )}
           </div>
         ))}
       </div>
-
+  
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-md">

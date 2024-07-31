@@ -6,6 +6,7 @@ import {
   DELETE_TEMPLATE_REQUEST,
   DELETE_TEMPLATE_SUCCESS,
   DELETE_TEMPLATE_FAILURE,
+  RESTORE_TEMPLATE_REQUEST
 } from './action-types';
 
 const localURL = 'http://localhost:3001/admin/templates';
@@ -58,10 +59,19 @@ export const createTemplate = (templateData) => {
     };
 };
 
+
+// added
+export const restoreTemplate = (templateId) => { 
+  return async (dispatch) => {
+    try {
+      await axios.put(`http://localhost:3001/admin/templates/restore/${templateId}`);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+};
+
 const token = localStorage.getItem('token');
 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-// looks like it's deleting the templates from the database.
-// we need soft deletion instead of hard deletion.
-// also, every template must have a button below it to activate, not just delete it.
-// button to filter by disabled and active templates.
+

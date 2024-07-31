@@ -20,6 +20,8 @@ const CreateTemplates = async (
   return newTemplate
 
 }
+
+// dynamic query to filter templates.
 const getFilteredTemplates = async ({
   imagen,
   technology,
@@ -31,60 +33,66 @@ const getFilteredTemplates = async ({
 }) => {
   const technologyFilter = technology ? { name: technology.split(",") } : {};
   const categoryFilter = category ? { name: category.split(",") } : {};
-
+  
   try {
+    // Prepare sorting options
     const orderArray = [];
     if (sortBy && order) {
-      orderArray.push([ sortBy, order.toUpperCase() ]);
+      orderArray.push([sortBy, order.toUpperCase()]);
     }
-
-    const limit = pageSize ? parseInt(pageSize) : 5; // Valor predeterminado de 5 si no se especifica
+    // Prepare pagination options
+    const limit = pageSize ? parseInt(pageSize) : 5; // Default value of 5 if not specified
     const offset = page ? (parseInt(page) - 1) * limit : 0;
 
-    // Contar el total de plantillas con los filtros aplicados
+    // Fetch total count of templates with filters applied.
     const totalCount = await Template.count({
       where: {
-        // Aplica los filtros según corresponda
         ...technologyFilter,
         ...categoryFilter,
       },
+      paranoid: true, // Ensure soft deleted templates are excluded
     });
 
-
+    // Fetch templates with filters applied.
     const templates = await Template.findAll({
       include: [
         {
           model: Technology,
           where: technologyFilter,
-          required: !!technology, // Incluir solo si hay un filtro de tecnología
+          required: !!technology, // Include only if there is a technology filter
         },
         {
           model: Category,
           where: categoryFilter,
-          required: !!category, // Incluir solo si hay un filtro de categoría
+          required: !!category, // Include only if there is a category filter
         },
         {
           model: Image,
           through: {
-            attributes: [], // Puedes especificar atributos específicos si es necesario
+            attributes: [], // Specify attributes if necessary
           },
           where: imagen,
         },
         {
           model: Review,
-          as: 'reviews'
+          as: 'reviews',
         }
       ],
+      
+      // Apply sorting, pagination, and other options.
       order: orderArray.length ? orderArray : undefined,
       limit: limit !== null ? limit : undefined,
       offset: offset !== null ? offset : undefined,
+      paranoid: true, // Ensure soft deleted templates are excluded
     });
 
+    // Calculate total pages based on the total count and limit.
     const totalPages = Math.ceil(totalCount / limit);
     if (!templates.length) {
-      return { error: "No hay plantillas con esa etiqueta", status: 404 };
+      return { error: "No templates found with the specified filters", status: 404 };
     }
 
+    // Return the templates and total pages
     return { data: templates, totalPages: totalPages === 0 ? 1 : totalPages, status: 200 };
   } catch (error) {
     console.error(error);
@@ -94,6 +102,8 @@ const getFilteredTemplates = async ({
     };
   }
 };
+
+
 
 
 const getAllCategories = async () => {
