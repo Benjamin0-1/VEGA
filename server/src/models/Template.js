@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  
   sequelize.define('template', {
     id: {
       type: DataTypes.UUID,
@@ -11,35 +10,22 @@ module.exports = (sequelize) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      // unique: true // debe ser unico
+      unique: true 
     },
     description: {
       type: DataTypes.STRING,
-      allowNull: false,  
+      allowNull: false,
     },
     price: {
       type: DataTypes.FLOAT,
-      allowNull: false,  
+      allowNull: false,
     },
-    // imagen:{ type: DataTypes.STRING,
-    //   allowNull: false,
-    // },
-    
-    
-    // deleted_at: {aqui se puede incluir soft-deletion} o paranoid: true
-    deleted_at: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: null // <-- utilizando paranoid: true No habria filtrar manualmente en las rutas.
-    },
-    technology:{
+    technology: {
       type: DataTypes.STRING,
-      allowNull: true,  
+      allowNull: true,
     }
-
-  },
-  {
-    timestamps: false
-    // agreagar index aqui en todas las columnas
+  }, {
+    timestamps: true, // Enable timestamps to automatically manage createdAt and updatedAt
+    paranoid: true, // Enable soft deletion using the paranoid option
   });
 };

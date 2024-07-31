@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
         primaryKey: true,
         allowNull: false,
       },
-      username: {
+      username: {   // will never get used and it will be removed in the future.
         type: DataTypes.STRING,
         allowNull: true,
         validate: {

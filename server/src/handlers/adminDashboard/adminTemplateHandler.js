@@ -98,7 +98,7 @@ const createTemplate = async (req, res) => {
 
 const getAllTemplates = async (req, res) => {
     try {
-        const templates = await Template.findAll();
+        const templates = await Template.findAll({ paranoid: false });
         if (templates.length === 0) {
             return res.status(404).json({ error: 'No se encontraron templates' });
         }
