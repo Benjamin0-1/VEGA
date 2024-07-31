@@ -29,7 +29,7 @@ module.exports = (sequelize) => {
         status: {
             type: DataTypes.STRING,
             allowNull: true,
-            defaultValue: "pending"
+            defaultValue: "fulfilled"
         },
         stripe_session_id: {
             type: DataTypes.STRING,

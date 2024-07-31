@@ -33,19 +33,19 @@ const paymentIntent = async (userId) => {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: [ 'card' ],
       line_items: userCart.inCart.map(item => ({
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: item.name,
-            description: item.description,
-          },
-          unit_amount: Math.round(item.price * 100),
+      price_data: {
+        currency: 'usd',
+        product_data: {
+        name: item.name,
+        description: item.description,
         },
-        quantity: 1,
+        unit_amount: Math.round(item.price * 100),
+      },
+      quantity: 1,
       })),
       mode: 'payment',
-      success_url: `https://pf-front-end-ecommerce-vega.vercel.app/paySuccess`,
-      cancel_url: `https://pf-front-end-ecommerce-vega.vercel.app/payCancel`,
+      success_url: `http://localhost:5173/paySuccess`, // doesnt exists yet
+      cancel_url: `http://localhost:5173/payCancel`, // doesnt exists yet
     });
 
     order.stripe_session_id = session.id;

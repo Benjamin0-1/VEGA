@@ -9,8 +9,8 @@ const Billing = () => {
   useEffect(() => {
     dispatch(fetchProfile());
   }, [dispatch]);
-
-  const completedOrders = userOrders ? userOrders.filter(order => order.status === "completed") : [];
+  // change to fulfilled on the backend.
+  const completedOrders = userOrders ? userOrders.filter(order => order.status === "pending") : [];
 
   return (
     <div className="">
