@@ -50,6 +50,10 @@ const paymentIntent = async (userId) => {
 
     order.stripe_session_id = session.id;
     await order.save();
+
+    // Clean the user's cart after successful purchase
+    await userCart.destroy();
+
     return { status: 201, id: session.id, session_url: session.url, order: order.id };
   } catch (error) {
     return { status: 500, message: `Internal Server Error: ${error.message}` };
