@@ -20,19 +20,22 @@ const Home = () => {
   useEffect(() => {
     const checkAdmin = async () => { 
       try {
-        const response = await fetch('http://localhost:3001/user/check-admin', {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-            'Content-Type': 'application/json'
-          }
-        });
+        const token = localStorage.getItem('token');
+        if (token) {
+          const response = await fetch('http://localhost:3001/user/check-admin', {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
+          });
 
-        const data = await response.json();
-        if (data.isAdmin) {
-          setIsAdmin(true);
-        } else { 
-          setIsAdmin(false);
+          const data = await response.json();
+          if (data.isAdmin) {
+            setIsAdmin(true);
+          } else { 
+            setIsAdmin(false);
+          }
         }
 
       } catch (error) {

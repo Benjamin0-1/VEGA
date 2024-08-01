@@ -22,7 +22,7 @@ async function buscarImagensEnCarpetas(categoria) {
       console.log(response);
       response.resources.forEach(resource => {
 
-        const isCover = options.folder.includes("_Portada"); // true si es una portada, false si es detalle
+        const isCover = options.folder.includes("_Portada"); // true if it is a cover, false if it is a detail
 
         resultados.push({
           url: resource.secure_url,

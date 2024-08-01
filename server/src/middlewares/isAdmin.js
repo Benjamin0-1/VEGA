@@ -6,8 +6,8 @@ const {Admin, User} = require('../db');
 //const Admin = require('../models/Admin');
 const router = require("express").Router();
 
-// las rutas de admin utilizaran ambos middlewares
-// asi isAdmin podra extraer info del jwt y utilizar para verificar los permisos en la tabla Admin.
+// The admin routes will use both middlewares
+// This way, the isAdmin middleware can extract information from the JWT and use it to verify permissions in the Admin table.
 module.exports = async (req, res, next) => {
     const user_id = req.userId;
 
