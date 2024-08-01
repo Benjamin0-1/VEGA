@@ -16,8 +16,9 @@ adminTemplatesRouter
 
 module.exports = adminTemplatesRouter;
 
+// we finish it today: Wednesday.
+// and then add it to the portfolio, deploy it, and start applying.
 
-// paranoid on Template. and all the functionalities similar to the user crud.
 // then, check google auth. <- tough one.
 // manage changing passwords for google users, once fixed, if fixed at all.
 // REMOVE EMAIL CHANGES FROM THE FRONT AND BACKEND.

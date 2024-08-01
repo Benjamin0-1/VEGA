@@ -13,5 +13,6 @@ userRouter
     .get("/profile", loginRequire, getProfile) 
     .put("/profile", loginRequire, updateProfile)
     .post('/change-password', loginRequire, changePassword);
+
     
 module.exports = userRouter
