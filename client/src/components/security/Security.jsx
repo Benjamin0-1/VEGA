@@ -9,11 +9,27 @@ const Security = () => {
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [isFirebaseUser, setIsFirebaseUser] = useState(false);
 
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user && user.firebaseUid) {
-      setIsFirebaseUser(true);
+  const checkFirebaseUser = async () => { 
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:3001/user/profile', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const data = await response.json();
+      if (data.firebaseUid) {
+        setIsFirebaseUser(true);
+      }
+    } catch (error) {
+      console.log(`error fetching user info: ${error}`);
     }
+  };
+
+  useEffect(() => {
+    checkFirebaseUser();
   }, []);
 
   const handleChange = (e) => {
@@ -85,8 +101,12 @@ const Security = () => {
           </div>
         </div>
         <div>
-          <form className="p-4" onSubmit={handleSubmit}>
-            {!isFirebaseUser && (
+          {isFirebaseUser ? (
+            <div className="p-4">
+              <p className="text-red-500">Como usuario de Google, no puedes cambiar tu contraseña.</p>
+            </div>
+          ) : (
+            <form className="p-4" onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label className="block mb-1" htmlFor="currentpassword">
                   Contraseña Actual
@@ -101,43 +121,42 @@ const Security = () => {
                   placeholder="Ingrese la contraseña actual"
                 />
               </div>
-            )}
-            <div className="mb-4">
-              <label className="block mb-1" htmlFor="newpassword">
-                Nueva Contraseña
-              </label>
-              <input
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
-                type="password"
-                id="newpassword"
-                name="newpassword"
-                value={newPassword}
-                onChange={handleChange}
-                placeholder="Ingrese la nueva contraseña"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block mb-1" htmlFor="confirmnewpassword">
-                Confirmar Nueva Contraseña
-              </label>
-              <input
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
-                type="password"
-                id="confirmnewpassword"
-                name="confirmnewpassword"
-                value={confirmNewPassword}
-                onChange={handleChange}
-                placeholder="Confirme la nueva contraseña"
-              />
-            </div>
-
-            <button
-              className="bg-slate-700 text-white px-4 py-2 rounded-md hover:bg-slate-800"
-              type="submit"
-            >
-              Guardar
-            </button>
-          </form>
+              <div className="mb-4">
+                <label className="block mb-1" htmlFor="newpassword">
+                  Nueva Contraseña
+                </label>
+                <input
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
+                  type="password"
+                  id="newpassword"
+                  name="newpassword"
+                  value={newPassword}
+                  onChange={handleChange}
+                  placeholder="Ingrese la nueva contraseña"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block mb-1" htmlFor="confirmnewpassword">
+                  Confirmar Nueva Contraseña
+                </label>
+                <input
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
+                  type="password"
+                  id="confirmnewpassword"
+                  name="confirmnewpassword"
+                  value={confirmNewPassword}
+                  onChange={handleChange}
+                  placeholder="Confirme la nueva contraseña"
+                />
+              </div>
+              <button
+                className="bg-slate-700 text-white px-4 py-2 rounded-md hover:bg-slate-800"
+                type="submit"
+              >
+                Guardar
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </div>
