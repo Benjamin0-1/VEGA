@@ -175,7 +175,17 @@ const loginService = async (email, userPassword, firebaseToken) => {
           }
         ]
       });
+
       if (user) { // q: what type of user is being found? firebase or local? a: firebase. q: why? a: because we are checking for firebaseUid first.
+        if (!user.firebaseUid) {
+          return { status: 400, error: 'No puedes iniciar sesión como usuario normal con una cuenta de Firebase.' };
+        }
+
+        // this works but doesn't let the user know that it was de activated.
+        if (user.deleted_at !== null) {
+          return { status: 403, error: 'Tu cuenta ha sido desactivada.' };
+        };
+
         // If user found, return a token
         const userToken = token(user);
         const { password, ...userWithoutPassword } = user.get();
@@ -189,9 +199,9 @@ const loginService = async (email, userPassword, firebaseToken) => {
           lastname: name.split(" ")[1] || '',
           imagen: picture
         });
-        const userToken = token(user); //q: are we creating a regular token for a firebase user?, this won't work, it's a different token.
+        const userToken = token(user); //are we creating a regular token for a firebase user?, this won't work, it's a different token.
         const { password, ...userWithoutPassword } = user.get();
-        return { status: 201, data: { token: userToken, userInfo: userWithoutPassword } }; // 201 for new user creation
+        return { status: 201, data: { token: userToken, userInfo: userWithoutPassword } }; 
       }
     } else if (userPassword) {
       // If no Firebase token, proceed with local login
@@ -211,13 +221,23 @@ const loginService = async (email, userPassword, firebaseToken) => {
           }
         ]
       });
+
+
       if (!user || user.deleted_at !== null) {
         return { status: 403, error: 'Tu cuenta ha sido desactivada.' };
       }
+
+      // if the user has a firebaseUid, then they can't login with a password.
+      if (!user.password || user.firebaseUid) {
+        return { status: 400, error: 'te has registrado con google, por favor continue con tal opcion.' };
+      }
+
       const passwordCorrect = await bcrypt.compare(userPassword, user.password);
       if (!passwordCorrect) {
         return { status: 400, error: 'Email o contraseña inválidos.' };
       }
+
+      
       const userToken = token(user);
       const { password, ...userWithoutPassword } = user.get();
       return { status: 200, data: { token: userToken, userInfo: userWithoutPassword } };
@@ -527,3 +547,102 @@ module.exports = {
   updateProfile,
   changePassword
 }
+
+
+
+
+/**
+ * // return error if google user is not found, not just a server error the user won't understand.
+const loginService = async (email, userPassword, firebaseToken) => {
+  if (!email && !firebaseToken) {
+    return { status: 400, error: 'Faltan datos' }; // If neither email nor Firebase token is provided
+  }
+  try {
+    let user;
+    if (firebaseToken) {
+      // Verify Firebase token
+      const decodedToken = await firebaseAdmin.auth().verifyIdToken(firebaseToken);
+      const { uid, email: firebaseEmail, name, picture } = decodedToken; // Extract user data from Firebase token.
+      // Find user by Firebase UID or email
+      // we should first check for firebase users.
+      user = await User.findOne({
+        where: { // in order to find a firebase user, we need to remove the or condition. instead, check
+                 // for firebaseUid and email. <- if it matches, then we have a firebase user.
+          [Op.or]: [
+            { firebaseUid: uid }, 
+            { email: firebaseEmail }
+          ]
+        },
+        include: [
+          {
+            model: Order,
+            foreignKey: "user_id"
+          },
+          {
+            model: Template,
+            as: 'Favorites',
+            through: {
+              attributes: []
+            }
+          }
+        ]
+      });
+      if (user) { // q: what type of user is being found? firebase or local? a: firebase. q: why? a: because we are checking for firebaseUid first.
+        // If user found, return a token
+        const userToken = token(user);
+        const { password, ...userWithoutPassword } = user.get();
+        return { status: 200, data: { token: userToken, userInfo: userWithoutPassword } };
+      } else {
+        // If user not found, create new user
+        user = await User.create({
+          email: firebaseEmail,
+          firebaseUid: uid,
+          name: name.split(" ")[0],
+          lastname: name.split(" ")[1] || '',
+          imagen: picture
+        });
+        const userToken = token(user); //q: are we creating a regular token for a firebase user?, this won't work, it's a different token.
+        const { password, ...userWithoutPassword } = user.get();
+        return { status: 201, data: { token: userToken, userInfo: userWithoutPassword } }; // 201 for new user creation
+      }
+    } else if (userPassword) {
+      // If no Firebase token, proceed with local login
+      user = await User.findOne({
+        where: { email },
+        include: [
+          {
+            model: Order,
+            foreignKey: "user_id"
+          },
+          {
+            model: Template,
+            as: 'Favorites',
+            through: {
+              attributes: []
+            }
+          }
+        ]
+      });
+      if (!user || user.deleted_at !== null) {
+        return { status: 403, error: 'Tu cuenta ha sido desactivada.' };
+      }
+      const passwordCorrect = await bcrypt.compare(userPassword, user.password);
+      if (!passwordCorrect) {
+        return { status: 400, error: 'Email o contraseña inválidos.' };
+      }
+      const userToken = token(user);
+      const { password, ...userWithoutPassword } = user.get();
+      return { status: 200, data: { token: userToken, userInfo: userWithoutPassword } };
+    } else {
+      return { status: 400, error: 'Email o contraseña inválidos.' };
+    }
+  } catch (error) {
+    console.error('Error al iniciar sesión:', error);
+    if (error.code === 'auth/argument-error') {
+      return { status: 400, error: 'Token de Firebase inválido.' }; // Specific error for Firebase token issues
+    }
+    return { status: 500, error: 'Error al procesar la solicitud de login.' };
+  }
+};
+
+ */
