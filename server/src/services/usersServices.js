@@ -93,7 +93,7 @@ async function sendMail(transporter, to, subject, message) {
 }
 
 
-
+// need to add google registration.
 const registerService = async (email, lastname, name, userPassword, image) => {
   try {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -104,7 +104,7 @@ const registerService = async (email, lastname, name, userPassword, image) => {
     const existingUser = await User.findOne({
       where: {
         email: email
-      }
+      }, attributes: ['email'] // Only fetch the email, imrpoves performance.
     });
     if (existingUser) {
       return { error: `El email ${email} ya existe`, status: 409 };
@@ -130,36 +130,35 @@ const registerService = async (email, lastname, name, userPassword, image) => {
 };
 
 
+
+
+
+
+
+
+
+
+
+
+// return error if google user is not found, not just a server error the user won't understand.
 const loginService = async (email, userPassword, firebaseToken) => {
-
-  if (!email) {
-    return {status: 400, error: 'Faltan datos'}
-  };
-
-  // verificar si usuario esta desactivado.
-  if (email) {
-    const user = await User.findOne({ where: { email } });
-
-    if (!user) {
-      return { status: 400, error: 'Usuario no encontrado.' };
-    };
-    if (user.deleted_at !== null) {
-      return { status: 403, error: 'Tu cuenta ha sido desactivada.' };
-    };
+  if (!email && !firebaseToken) {
+    return { status: 400, error: 'Faltan datos' }; // If neither email nor Firebase token is provided
   }
-
   try {
     let user;
-
     if (firebaseToken) {
+      // Verify Firebase token
       const decodedToken = await firebaseAdmin.auth().verifyIdToken(firebaseToken);
-      const { uid, email } = decodedToken;
-
+      const { uid, email: firebaseEmail, name, picture } = decodedToken; // Extract user data from Firebase token.
+      // Find user by Firebase UID or email
+      // we should first check for firebase users.
       user = await User.findOne({
-        where: {
+        where: { // in order to find a firebase user, we need to remove the or condition. instead, check
+                 // for firebaseUid and email. <- if it matches, then we have a firebase user.
           [Op.or]: [
-            { firebaseUid: uid },
-            { email: email }
+            { firebaseUid: uid }, 
+            { email: firebaseEmail }
           ]
         },
         include: [
@@ -176,27 +175,26 @@ const loginService = async (email, userPassword, firebaseToken) => {
           }
         ]
       });
-
-      if (user && user.password) {
-        // Si el usuario tiene contraseña, genera un token con ese usuario
+      if (user) { // q: what type of user is being found? firebase or local? a: firebase. q: why? a: because we are checking for firebaseUid first.
+        // If user found, return a token
         const userToken = token(user);
         const { password, ...userWithoutPassword } = user.get();
-
         return { status: 200, data: { token: userToken, userInfo: userWithoutPassword } };
-      }
-
-      // Si el usuario no tiene contraseña (por ejemplo, si se registró solo con Firebase)
-      if (!user) {
+      } else {
+        // If user not found, create new user
         user = await User.create({
-          email,
+          email: firebaseEmail,
           firebaseUid: uid,
-          name: decodedToken.name.split(" ")[0],
-          lastname: decodedToken.name.split(" ")[2] || decodedToken.name.split(" ")[1],
-          imagen: decodedToken.picture,
+          name: name.split(" ")[0],
+          lastname: name.split(" ")[1] || '',
+          imagen: picture
         });
+        const userToken = token(user); //q: are we creating a regular token for a firebase user?, this won't work, it's a different token.
+        const { password, ...userWithoutPassword } = user.get();
+        return { status: 201, data: { token: userToken, userInfo: userWithoutPassword } }; // 201 for new user creation
       }
-    } else {
-      // Lógica para manejar inicio de sesión con email y contraseña
+    } else if (userPassword) {
+      // If no Firebase token, proceed with local login
       user = await User.findOne({
         where: { email },
         include: [
@@ -213,29 +211,35 @@ const loginService = async (email, userPassword, firebaseToken) => {
           }
         ]
       });
-
       if (!user || user.deleted_at !== null) {
         return { status: 403, error: 'Tu cuenta ha sido desactivada.' };
       }
-
       const passwordCorrect = await bcrypt.compare(userPassword, user.password);
-
       if (!passwordCorrect) {
         return { status: 400, error: 'Email o contraseña inválidos.' };
       }
+      const userToken = token(user);
+      const { password, ...userWithoutPassword } = user.get();
+      return { status: 200, data: { token: userToken, userInfo: userWithoutPassword } };
+    } else {
+      return { status: 400, error: 'Email o contraseña inválidos.' };
     }
-
-    // Genera el token para el usuario encontrado
-    const userToken = token(user);
-    const { password, ...userWithoutPassword } = user.get();
-
-    return { status: 200, data: { token: userToken, userInfo: userWithoutPassword } };
-
   } catch (error) {
     console.error('Error al iniciar sesión:', error);
+    if (error.code === 'auth/argument-error') {
+      return { status: 400, error: 'Token de Firebase inválido.' }; // Specific error for Firebase token issues
+    }
     return { status: 500, error: 'Error al procesar la solicitud de login.' };
   }
 };
+
+
+
+
+
+
+
+
 
 
 

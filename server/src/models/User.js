@@ -34,7 +34,7 @@ module.exports = (sequelize) => {
       },
       password: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: true, // for firebase users, this will be null.
       },
       imagen: {
         type: DataTypes.STRING,
@@ -74,6 +74,8 @@ module.exports = (sequelize) => {
 
   return User;
 };
+
+
 /**const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {

@@ -13,6 +13,7 @@ const DashboardPage = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     navigate('/home');
   };
 
@@ -84,13 +85,13 @@ const DashboardPage = () => {
               </div>
             )}
           </div>
-          <div
+          {/* <div
             className="flex items-center space-x-2 cursor-pointer hover:bg-gray-600 p-2 rounded mt-auto"
             onClick={handleLogout}
           >
             <AiOutlineLogout className="text-xl" />
             <span>Cerrar Sesión</span>
-          </div>
+          </div> */}
           <div
             className="flex items-center space-x-2 cursor-pointer hover:bg-gray-600 p-2 rounded"
             onClick={handleGoHome}
