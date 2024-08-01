@@ -1,5 +1,5 @@
 const { registerService, loginService, addNewFavorite, getAllFavorites, removeFavorite, userId } = require('../services/usersServices');
-const {User} = require('../db');
+const {User, Admin} = require('../db');
 const bcrypt = require('bcrypt');
 // VERIFY every function is working.
 
@@ -152,6 +152,28 @@ const changePassword = async (req, res) => {
     }
   };
 
+// this new route wil simply return whether a user is an admin or not.
+const checkAdmin = async (req, res) => {
+    const userId = req.userId;
+    
+    try {
+        
+        const user = await User.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+        
+        const admin = await Admin.findOne({ where: { user_id: userId } });
+        return res.status(200).json({ isAdmin: !!admin });
+
+    } catch (error) {
+        console.error('Error al verificar si el usuario es administrador:', error);
+        return res.status(500).json({ error: 'Error interno del servidor.' });
+    }
+};
+
+
+
 module.exports = {
     registerUser,
     loginUser,
@@ -159,6 +181,8 @@ module.exports = {
     getFavorites,
     deleteFavorite, 
     getUserById,
-    changePassword
-}
+    changePassword,
+    checkAdmin
+};
+
 

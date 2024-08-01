@@ -14,7 +14,7 @@ const Home = () => {
   const allTemplates = useSelector((state) => state.templates.templates);
   const totalPages = useSelector((state) => state.templates.totalPages);
   
-  const itemsPerPage = 5
+  const itemsPerPage = 6 
   const dispatch = useDispatch();
 
   const [ currentPage, setCurrentPage ] = useState(1);
