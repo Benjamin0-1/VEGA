@@ -51,7 +51,7 @@ Make sure you have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.co
 
 ### Running the App
 
-1. Start the application:
+1. Start the application(this will both client and server at once):
     ```bash
     npm start
     ```
