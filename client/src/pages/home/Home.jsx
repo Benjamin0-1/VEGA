@@ -90,7 +90,7 @@ const Home = () => {
               className="flex items-center space-x-2 mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
             >
               <FaTachometerAlt className="text-xl" />
-              <span>Go to Dashboard</span>
+              <span>Ir a dashboard</span>
             </button>
           )}
         </div>
