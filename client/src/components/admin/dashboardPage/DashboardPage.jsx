@@ -11,8 +11,44 @@ const DashboardPage = () => {
   const toggleTemplatesMenu = () => setShowTemplatesMenu(!showTemplatesMenu);
   const toggleUsersMenu = () => setShowUsersMenu(!showUsersMenu);
 
+  
+  useEffect(() => {
+    const checkAdmin = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          navigate('/login');
+          return;
+        }
+
+        const response = await fetch('http://localhost:3001/user/check-admin', { 
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        const data = await response.json();
+        if (data.isAdmin) {
+          return;
+        } else {
+          navigate('/home');
+        }
+
+      } catch (error) {
+        console.log(`Error fetching user info: ${error}`);
+      }
+    };
+
+    checkAdmin();
+  }, [navigate]);
+
+
+
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     navigate('/home');
   };
 
@@ -84,13 +120,13 @@ const DashboardPage = () => {
               </div>
             )}
           </div>
-          <div
+          {/* <div
             className="flex items-center space-x-2 cursor-pointer hover:bg-gray-600 p-2 rounded mt-auto"
             onClick={handleLogout}
           >
             <AiOutlineLogout className="text-xl" />
             <span>Cerrar Sesión</span>
-          </div>
+          </div> */}
           <div
             className="flex items-center space-x-2 cursor-pointer hover:bg-gray-600 p-2 rounded"
             onClick={handleGoHome}

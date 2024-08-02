@@ -137,11 +137,13 @@ const Detail = () => {
                                     Añadir a carrito
                                 </button>
                             </div>
-                            <div className="flex items-center mt-3 mb-10 w-1/2">
+
+                           {/* <div className="flex items-center mt-3 mb-10 w-1/2">
                                 <button className="bg-[#06B6D4] text-white font-inter hover:scale-110 hover:bg-green-500 font-bold py-2 px-4 rounded-full">
                                     Comprar ahora
-                                </button>
-                            </div>
+                                </button> 
+                            </div>  <- this button will be implemented in the future.*/ } 
+                            
                         </div>
 
                     </div>

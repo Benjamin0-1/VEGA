@@ -52,9 +52,10 @@ export function logWhitFirebase(userInfo) {
   return async (dispatch) => {
     try {
       console.log(userInfo);
-      const { data } = await axios.post(`${URL || localURL}/login`, {
+      const { data } = await axios.post(`${localURL}/login`, {
         firebaseToken: userInfo.user.accessToken
       });
+      console.log(`User info, accessToken: ${data.userInfo.accessToken}`);
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.userInfo));
       return dispatch({

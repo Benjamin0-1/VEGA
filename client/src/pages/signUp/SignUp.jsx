@@ -7,6 +7,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import { FaGoogle } from 'react-icons/fa';
 import { UserAuth } from '../../components/context/authContex';
 
+const token = localStorage.getItem('token');
+
 const SignUp = () => {
   const [ name, setName ] = useState('');
   const [ lastname, setLastname ] = useState('');
@@ -18,6 +20,12 @@ const SignUp = () => {
   const navigate = useNavigate();
   const { googleSignIn } = UserAuth();
   const userInfo = {}
+
+  useEffect(() => {
+    if (token) {
+      navigate('/home');
+    }
+  }, [ token ]);
 
   useEffect(() => {
     userInfo.name = name

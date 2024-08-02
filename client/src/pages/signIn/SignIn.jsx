@@ -7,6 +7,7 @@ import { logWhitFirebase, login } from '../../redux/actions/userAction';
 import { ToastContainer, toast } from 'react-toastify';
 
 import { UserAuth } from '../../components/context/authContex';
+const token = localStorage.getItem('token');
 
 
 const SignIn = () => {
@@ -17,6 +18,13 @@ const SignIn = () => {
   const dispatch = useDispatch();
   const [ user, setUser ] = useState(null)
   const { googleSignIn } = UserAuth();
+
+  // 
+ useEffect(() => {
+  if (token) {
+    navigate('/home');
+  }
+ }, [ token ]);
 
   useEffect(() => {
     if (user !== null) {
@@ -38,7 +46,7 @@ const SignIn = () => {
     setPassword("")
     toast.success(`Bienvenido de vuelta, ${response.payload.name}`)
     setTimeout(() => {
-      navigate("/profile")
+      navigate("/home"); // changed from /profile
     }, 1000);
     return
   }
@@ -51,7 +59,7 @@ const SignIn = () => {
         const { user, firebaseToken } = loginWithGoogle;
         dispatch(logWhitFirebase({ user, firebaseToken }));
         setUser(user)
-        navigate("/profile");
+        navigate("/home"); // changed from /profile
       }
       setLoading(false)
     } catch (error) {

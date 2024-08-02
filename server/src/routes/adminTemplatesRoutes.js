@@ -16,11 +16,3 @@ adminTemplatesRouter
 
 module.exports = adminTemplatesRouter;
 
-
-// paranoid on Template. and all the functionalities similar to the user crud.
-// then, check google auth. <- tough one.
-// manage changing passwords for google users, once fixed, if fixed at all.
-// REMOVE EMAIL CHANGES FROM THE FRONT AND BACKEND.
-// nice changes: 
-    // - Local storage for the cart, then gets automatically added to the user's cart after login or signup. <- tough one.
-

@@ -7,12 +7,12 @@ module.exports = (sequelize) => {
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
-        // usuario al cual pertenece la orden
+        // user to whom the order belongs
         user_id: {
             type: DataTypes.UUID,
             allowNull: false
         },
-        // id del template que se va a comprar.
+        // product id to be purchased
         // product_id: {
         //     type: DataTypes.UUID,
         //     allowNull: false
@@ -21,7 +21,7 @@ module.exports = (sequelize) => {
             type: DataTypes.FLOAT,
             allowNull: false,
         },
-        // ? esto debe ir ?
+        
         order_date: {
             type: DataTypes.DATE,
             defaultValue: sequelize.literal('CURRENT_TIMESTAMP')

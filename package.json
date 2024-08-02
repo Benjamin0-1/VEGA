@@ -1,14 +1,21 @@
 {
-    "name": "your-project",
+    "name": "pf-fullstack-ecommerce",
     "version": "1.0.0",
     "private": true,
+    "workspaces": [
+      "client",
+      "server"
+    ],
     "scripts": {
-        "start": "concurrently \"npm run server\" \"npm run client\"",
-        "server": "cd server && nodemon index.js",
-        "client": "cd client && npm start"
+      "start": "concurrently \"npm run start:client\" \"npm run start:server\"",
+      "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+      "start:client": "npm --prefix client start",
+      "start:server": "npm --prefix server start",
+      "dev:client": "npm --prefix client run dev",
+      "dev:server": "npm --prefix server run dev"
     },
-    "dependencies": {
-        "concurrently": "^8.2.2",
-        "nodemon": "^3.1.4"
+    "devDependencies": {
+      "concurrently": "^7.0.0"
     }
-}
+  }
+  

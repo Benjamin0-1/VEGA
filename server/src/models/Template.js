@@ -25,7 +25,7 @@ module.exports = (sequelize) => {
       allowNull: true,
     }
   }, {
-    timestamps: true, // Enable timestamps to automatically manage createdAt and updatedAt
-    paranoid: true, // Enable soft deletion using the paranoid option
+    timestamps: true, // Enabling timestamps to automatically manage createdAt and updatedAt
+    paranoid: true, // Enabling soft deletion using the paranoid option
   });
 };
