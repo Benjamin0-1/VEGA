@@ -23,6 +23,9 @@ Below are some screenshots of the application in action:
 ### Detail Page
 <img width="1423" alt="detail-page" src="https://github.com/user-attachments/assets/b7a529f4-8710-4534-b33d-14f261926d48">
 
+### Cart Page
+<img width="1422" alt="cart" src="https://github.com/user-attachments/assets/2831edfb-6747-427c-b45b-905cf3b690c2">
+
 ### Dashboard
 <img width="1427" alt="dashboard" src="https://github.com/user-attachments/assets/b469631d-bfe5-4ad3-9883-b7741fb7f634">
 
