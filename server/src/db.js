@@ -5,21 +5,30 @@ const path = require("path");
 const { image } = require("./cloudinary");
 const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, DB_URL } = process.env;
 
+
+const isDevelopment = process.env.NODE_ENV === 'development';
+
+// you can easily change between local and production database by changing the values in the .env file.
+// this will only change the values of the database connection.
 const sequelize = new Sequelize({
-  database: process.env.DB_NAME,
-  username: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  host: process.env.DB_HOST,
+  database: isDevelopment ? process.env.DB_NAME_LOCAL : process.env.DB_NAME,
+  username: isDevelopment ? process.env.DB_USER_LOCAL : process.env.DB_USER,
+  password: isDevelopment ? process.env.DB_PASSWORD_LOCAL : process.env.DB_PASSWORD,
+  host: isDevelopment ? process.env.DB_HOST_LOCAL : process.env.DB_HOST,
+  port: isDevelopment ? 5432 : process.env.DB_PORT, 
   dialect: 'postgres',
   protocol: 'postgres',
-  //dialectOptions: {
-  //  ssl: {
-  //    require: false, // SSL is not required for localhost, but is required for deployed apps.
-  //    rejectUnauthorized: false
- //   }
- // },
   logging: false,
+  dialectOptions: isDevelopment ? {} : {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  }
 });
+
+
+
 
 
 sequelize.options.timezone = "America/Mexico_City";
