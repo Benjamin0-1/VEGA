@@ -93,7 +93,7 @@ const getCategories = async (req, res) => {
     res.status(500).send("Ha ocurrido un error.");
   }
 };
-// funcion auxiliar par cargar la base de datos
+// this function is used to load the database with the data from the json file.
 const loadDb = async (req, res) => {
   try {
     const categories = await Category.bulkCreate(data.categories);

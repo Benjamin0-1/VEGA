@@ -11,11 +11,16 @@ import { ToastContainer } from "react-toastify";
 import { fetchProfile } from "../../redux/actions/userAction.js";
 import { FaTachometerAlt } from 'react-icons/fa'; // Add the icon you want to use
 
+
 const Home = () => {
   const allTemplates = useSelector((state) => state.templates.templates);
   const totalPages = useSelector((state) => state.templates.totalPages);
   const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate(); // Hook for navigation
+
+  // there must be slight bug in which the login page blinks for a milisecond
+  // after logging out and trying to immediately access the login page again.
+  // this will be looked into later and Fixed.
 
   useEffect(() => {
     const checkAdmin = async () => { 
