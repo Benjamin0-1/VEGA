@@ -16,14 +16,9 @@ Welcome to **VEGA Template Store**! This application provides a comprehensive e-
 
 Below are some screenshots of the application in action:
 
-![Home Page](./docs/home-page.png)
-*Home Page*
-
-![Detail Page](./docs/detail-page.png)
-*Detail Page*
-
-![Dashboard](./docs/dashboard.png)
-*Admin Dashboard*
+<img width="1427" alt="dashboard" src="https://github.com/user-attachments/assets/b469631d-bfe5-4ad3-9883-b7741fb7f634">
+<img width="1423" alt="detail-page" src="https://github.com/user-attachments/assets/b7a529f4-8710-4534-b33d-14f261926d48">
+<img width="1427" alt="home-page" src="https://github.com/user-attachments/assets/d5ce98f7-a4c5-404a-a3d9-f58f37b3b0df">
 
 ## Getting Started
 
