@@ -36,7 +36,7 @@ Make sure you have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.co
     ```
 2. Navigate to the project directory:
     ```bash
-    cd your-repo
+    cd VEGA
     ```
 3. Install the dependencies:
     ```bash
