@@ -58,4 +58,10 @@ Make sure you have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.co
 
 2. By default, `NODE_ENV` in the `.env` file is set to "production". This means that when you run `npm start` at the root directory, it will connect to a deployed database. However, this process can take up to 5 minutes due to cost considerations. If you prefer to set up a PostgreSQL database locally and run the `NODE_ENV` as "development", you will need to update your `.env` file with your own database credentials. This will allow for a faster setup with local configurations. The application will be loaded with sample data, including templates, categories, and images.
 
+3.  The application will be loaded with sample data including templates, categories, and images. 
+
+4. A default Admin user will be created with the following credentials:
+    - **Email:** admin@gmail.com
+    - **Password:** 12345
+
 Feel free to explore and use the **VEGA Template Store**!
